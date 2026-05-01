@@ -27,7 +27,7 @@ Verificamos o tamanho da base e a existência de valores nulos para garantir a q
 ### 3. Segmentação de Grupos
 Separei os clientes entre ativos e cancelados para comparar comportamentos médios.
 
-![Segmentação](imagens/df_cancelados + df_ativos.png)
+![Segmentação](imagens/df_cancelados%20+%20df_ativos.png)
 
 ### 4. Tratamento de Erros e Correção Lógica
 Identificamos que cálculos matemáticos devem ser feitos sobre valores brutos (`.shape[0]`), evitando erros de lógica com tabelas inteiras.
