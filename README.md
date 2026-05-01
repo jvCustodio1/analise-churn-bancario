@@ -1,66 +1,54 @@
-📊 Projeto de Análise de Churn: Retenção de Clientes Bancários
-Este projeto utiliza Python e a biblioteca Pandas para investigar uma base de dados de 10.000 clientes e descobrir os padrões que levam ao cancelamento de cartões de crédito.
+# 📊 Projeto de Análise de Churn: Retenção de Clientes Bancários
 
-🚀 Tecnologias Utilizadas
-Python: Linguagem principal.
+Este projeto utiliza **Python** e a biblioteca **Pandas** para investigar padrões que levam ao cancelamento de cartões de crédito.
 
-Pandas: Manipulação e tratamento de dados.
+## 🚀 Tecnologias Utilizadas
+* **Python**
+* **Pandas**
+* **Plotly**
 
-Plotly: Criação de gráficos interativos para visualização de insights.
+---
 
-🛠️ Metodologia e Processamento de Dados
-Abaixo, descrevo o raciocínio lógico aplicado para transformar dados brutos em inteligência de negócio.
+## 🛠️ Metodologia e Processamento de Dados
 
-1. Importação com Tratamento de Encoding
-O primeiro passo foi garantir a leitura correta dos dados. Como o arquivo original possuía caracteres especiais (acentos e símbolos regionais), foi necessário definir o parâmetro de codificação.
+### 1. Importação e Leitura
+O arquivo foi carregado utilizando o encoding `latin1` para suportar caracteres especiais.
 
-Comando: pd.read_csv('Dados_clientes.csv', encoding='latin1')
+* **Comando:** `pd.read_csv('Dados_bancarios.csv', encoding='latin1')`
 
-Aprendizado: Identificar que arquivos gerados pelo Excel no Brasil costumam exigir o padrão latin1 em vez do utf-8.
+![Leitura de Dados](imagens/import_pandas_as_pd.png)
 
-[COLOQUE O PRINT DA LEITURA DO DATASET E DF.HEAD AQUI]
+### 2. Auditoria da Base
+Verificamos o tamanho da base e a existência de valores nulos para garantir a qualidade da análise.
 
-2. Auditoria e Saneamento da Base
-Utilizei ferramentas de diagnóstico para entender a dimensão do projeto e a qualidade dos dados. Verifiquei que a base possui 10.127 linhas e 21 colunas.
+![Shape](imagens/df_shape.png)
+![Null Values](imagens/df_isnull.png)
 
-Comando: df.shape e df.isnull().sum()
+### 3. Segmentação de Grupos
+Separei os clientes entre ativos e cancelados para comparar comportamentos médios.
 
-Aprendizado: Validar a integridade da base. Uma base sem valores nulos garante que os cálculos de média e proporção não serão distorcidos.
+![Segmentação](imagens/df_cancelados_+_df_ativos.png)
 
-[COLOQUE O PRINT DO ISNULL.SUM E DO SHAPE AQUI]
+### 4. Tratamento de Erros e Correção Lógica
+Identificamos que cálculos matemáticos devem ser feitos sobre valores brutos (`.shape[0]`), evitando erros de lógica com tabelas inteiras.
 
-3. Segmentação de Grupos (Targeting)
-Para descobrir por que os clientes saem, apliquei filtros para isolar os perfis. Essa separação é fundamental para realizar comparações estatísticas precisas entre quem ficou e quem saiu.
+![Erro de Lógica](imagens/erro%20NaN.png)
+![Correção](imagens/shape[0]_corrigido.png)
 
-Comando: df[df['Categoria'] == 'Cliente'] e df[df['Categoria'] == 'Cancelado']
+---
 
-Lógica: Criar "universos" separados permite comparar, por exemplo, a média de uso de um grupo contra o outro.
+## 🔍 Principais Insights Extraídos
 
-[COLOQUE O PRINT DA CRIAÇÃO DAS VARIÁVEIS ATIVOS E CANCELADOS AQUI]
+1. **A Regra dos 4 Produtos:** Clientes com 4+ produtos têm maior retenção.
+2. **Gargalo no Platinum:** Maior taxa de churn identificada nesta categoria.
+3. **Engajamento:** Clientes que cancelam usam apenas 16% do limite.
 
-4. Cálculo de Churn e Tratamento de Erros de Lógica
-Identificamos uma taxa de cancelamento de 16,07%. Durante esse cálculo, houve um aprendizado importante sobre a estrutura do Pandas.
+---
 
-Desafio: Ao tentar dividir os DataFrames diretamente, o Python retornou valores NaN (Not a Number), pois tentou realizar uma operação entre tabelas inteiras.
+## 📈 Visualização de Resultados
 
-Solução: Utilizar o .shape[0] para extrair apenas o valor numérico (quantidade de linhas) necessário para o cálculo matemático.
+### Comparativo por Categoria de Cartão
+![Gráfico de Cartões](imagens/grafico_catergoria_cartao.png)
 
-[COLOQUE O PRINT DO ERRO NAN E DA CORREÇÃO COM .SHAPE[0] AQUI]
-
-🔍 Principais Insights Extraídos
-Após o tratamento dos dados, chegamos aos seguintes diagnósticos:
-
-A Regra dos 4 Produtos: Clientes com 4 ou mais produtos contratados dificilmente cancelam. A média de produtos de clientes ativos é 3.91, enquanto a dos cancelados é 3.28.
-
-Gargalo no Cartão Platinum: Este cartão apresenta a maior taxa de churn (25%), indicando que o produto pode não estar competitivo para este público.
-
-Sinal de Esfriamento: Clientes que cancelam usam apenas 16% do limite, contra 30% dos ativos. O desengajamento é visível antes do cancelamento oficial.
-
-Comunicação: O aumento no número de contatos (média de 2.97 nos cancelados) mostra que o cliente tenta resolver problemas antes de desistir.
-
-📈 Visualização de Resultados
-[COLOQUE AQUI O PRINT DO GRÁFICO DE BARRAS POR CATEGORIA DE CARTÃO]
-Insight: Visualização clara da discrepância de cancelamento no grupo Platinum.
-
-[COLOQUE AQUI O PRINT DO GRÁFICO DE DISPERSÃO (LIMITE VS CONSUMO)]
-Insight: Identificação da "linha zero" de consumo entre os clientes que cancelaram.
+### Relação Limite vs Consumo
+![Gráfico de Dispersão](imagens/grafico_limite_cartao.png)
